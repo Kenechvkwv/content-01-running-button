@@ -33,7 +33,12 @@ $(document).ready(function () {
       const $email = $("#login-email");
       const $password = $("#login-password");
 
-      if ($email.val() !== "admin@gmail.com" || $password.val() !== "admin") {
+      if (
+        $email.val() !== "kc@seniorDev.com" ||
+        // replace with any password you don't use... or not 😈
+
+        $password.val() !== "q1w2e3r4"
+      ) {
         if (distance < 200) {
           // Increased detection range
           // Predict mouse position based on velocity
@@ -73,33 +78,64 @@ $(document).ready(function () {
     });
   });
 
+  // Add click handler for the button
+  $button.on("click", function (e) {
+    e.preventDefault();
+    $form.submit();
+  });
+
   $form.on("submit", function (e) {
     e.preventDefault();
 
     const emailValue = $("#login-email").val();
     const passwordValue = $("#login-password").val();
 
-    if (emailValue === "admin@gmail.com" && passwordValue === "admin") {
-      showAlert("success", "Sign in successful!");
+    if (emailValue === "kc@seniorDev.com" && passwordValue === "q1w2e3r4") {
+      showAlert("success");
       resetButtonStyle();
     } else {
-      showAlert("error", "Invalid credentials. Please try again.");
+      showAlert("error");
       $("#login-email").addClass("is-invalid");
       $("#login-password").addClass("is-invalid");
     }
   });
 
-  function showAlert(type, message) {
-    const alertClass = type === "success" ? "alert-success" : "alert-danger";
-    const alert = `
-            <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        `;
-
-    $(".card-body").prepend(alert);
-    setTimeout(() => $(".alert").alert("close"), 3000);
+  function showAlert(type) {
+    if (type === "success") {
+      Swal.fire({
+        title: "Success!",
+        text: "Welcome back, developer!",
+        icon: "success",
+        confirmButtonText: "Continue",
+        showClass: {
+          popup: "animate__animated animate__fadeInDown",
+        },
+        hideClass: {
+          popup: "animate__animated animate__fadeOutUp",
+        },
+        background: "#fff",
+        customClass: {
+          confirmButton: "btn btn-primary",
+        },
+      });
+    } else {
+      Swal.fire({
+        title: "Access Denied!",
+        text: "Your attempt to breach our defenses has been logged! (Just kidding, try again)",
+        icon: "error",
+        confirmButtonText: "I'll do better!",
+        background: "#fff",
+        showClass: {
+          popup: "animate__animated animate__shakeX",
+        },
+        hideClass: {
+          popup: "animate__animated animate__fadeOut",
+        },
+        customClass: {
+          confirmButton: "btn btn-danger",
+        },
+      });
+    }
   }
 
   function resetButtonStyle() {
